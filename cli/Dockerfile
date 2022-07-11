@@ -11,7 +11,7 @@ RUN set -eux; \
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 # List of PHP extensions
-ARG PHP_EXTENSIONS="bcmath common gd gmp intl json mbstring mcrypt sodium mysqlnd opcache pdo pecl-msgpack pecl-amqp pecl-redis pecl-imagick pecl-zip process soap xml xmlrpc"
+ARG PHP_EXTENSIONS="bcmath gd gmp intl json mbstring mcrypt sodium mysqlnd opcache pdo pecl-msgpack pecl-amqp pecl-redis pecl-imagick pecl-zip process soap xml xmlrpc"
 
 RUN set -eux; \
     chmod +x /usr/local/bin/install-php-extensions; sync; \
