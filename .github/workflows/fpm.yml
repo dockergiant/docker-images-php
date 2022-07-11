@@ -16,12 +16,18 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - "7.2"
-          - "7.3"
-          - "7.4"
-          - "8.0"
-          - "8.1"
-
+          - from: "7.2-fpm-alpine3.12"
+            tag: "7.2"
+          - from: "7.3.33-fpm-alpine3.14"
+            tag: "7.3"
+          - from: "7.4.30-fpm-bullseye"
+            tag: "7.4"
+          - from: "8.0.21-fpm-bullseye"
+            tag: "8.0"
+          - from: "8.1.8-fpm-bullseye"
+            tag: "8.1"
+          - from: "8.2.0alpha3-fpm-bullseye"
+            tag: "8.2"
     steps:
       - run: sudo chown runner:docker /var/run/docker.sock
         if: ${{ env.ACT }}
@@ -40,6 +46,6 @@ jobs:
         with:
           context: fpm
           platforms: linux/amd64,linux/arm64
-          build-args: PHP_VERSION=${{ matrix.version }}
+          build-args: PHP_VERSION=${{ matrix.version.from }}
           push: ${{ github.ref == 'refs/heads/master' && !env.ACT }}
-          tags: docker.io/rollupdev/php:${{ matrix.version }}-fpm
+          tags: docker.io/rollupdev/php:${{ matrix.version.tag }}-fpm
