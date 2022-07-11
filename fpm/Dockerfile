@@ -14,6 +14,7 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 ARG PHP_EXTENSIONS="amqp bcmath gd gmp imagick intl msgpack opcache pdo_mysql redis soap sockets xmlrpc xsl zip"
 
 RUN set -eux; \
+    chsh -s /bin/bash; \
     chmod +x /usr/local/bin/install-php-extensions; sync; \
 	install-php-extensions ${PHP_EXTENSIONS}; \
 	apt-get update; \
