@@ -16,7 +16,7 @@ RUN set -eux \
 
 # Install PHP extensions
 RUN docker-php-ext-install bcmath gd gmp intl opcache zip soap
-RUN docker-php-ext-enable mcrypt msgpack amqp redis imagick eio
+RUN docker-php-ext-enable mcrypt msgpack amqp redis imagick eio xmlrpc
 
 RUN rm -rf /var/lib/apt/lists/*
 # Set primary INI file and PHP memory limit

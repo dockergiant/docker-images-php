@@ -14,8 +14,8 @@ RUN set -eux \
     && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install xmlrpc; else docker-php-ext-install xmlrpc; fi" \
 
 # Install PHP extensions
-RUN docker-php-ext-install bcmath gd gmp intl opcache pdo_mysql soap sockets  xsl zip
-RUN docker-php-ext-enable msgpack amqp redis imagick
+RUN docker-php-ext-install bcmath gd gmp intl opcache pdo_mysql soap sockets xsl zip
+RUN docker-php-ext-enable msgpack amqp redis imagick xmlrpc
 
 
 RUN rm -rf /var/lib/apt/lists/*
