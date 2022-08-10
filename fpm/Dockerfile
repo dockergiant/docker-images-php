@@ -9,8 +9,12 @@ RUN set -eux; \
     librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev libxslt-dev libzip-dev; \
     pecl install msgpack amqp redis imagick;
 
+RUN set -eux \
+    && PHP_VERSION=$(echo ${PHP_VERSION} | awk -F '.' '{print $1$2}') \
+    && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install xmlrpc; else docker-php-ext-install xmlrpc; fi" \
+
 # Install PHP extensions
-RUN docker-php-ext-install bcmath gd gmp intl opcache pdo_mysql soap sockets xmlrpc xsl zip
+RUN docker-php-ext-install bcmath gd gmp intl opcache pdo_mysql soap sockets  xsl zip
 RUN docker-php-ext-enable msgpack amqp redis imagick
 
 

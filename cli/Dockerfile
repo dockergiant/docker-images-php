@@ -11,10 +11,11 @@ RUN set -eux; \
 
 RUN set -eux \
     && PHP_VERSION=$(echo ${PHP_VERSION} | awk -F '.' '{print $1$2}') \
-    && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install eio-beta; else pecl install eio; fi"
+    && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install eio-beta xmlrpc; else pecl install eio && docker-php-ext-install xmlrpc; fi" \
+    && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install eio-beta xmlrpc; else pecl install eio ; fi"
 
 # Install PHP extensions
-RUN docker-php-ext-install bcmath gd gmp intl opcache zip soap xmlrpc
+RUN docker-php-ext-install bcmath gd gmp intl opcache zip soap
 RUN docker-php-ext-enable mcrypt msgpack amqp redis imagick eio
 
 RUN rm -rf /var/lib/apt/lists/*
