@@ -6,7 +6,7 @@ RUN set -eux; \
     apt-get update -y; \
     apt-get upgrade -y; \
     apt-get install -y --no-install-recommends git perl npm patch gettext unzip bzip2 pwgen nmap ncat jq \
-    libmcrypt-dev librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev; \
+    libmcrypt-dev librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev libzip-dev; \
     pecl install mcrypt msgpack amqp redis imagick;
 
 RUN set -eux \

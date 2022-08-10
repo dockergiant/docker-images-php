@@ -6,7 +6,7 @@ RUN set -eux; \
     apt-get update -y; \
     apt-get upgrade -y; \
     apt-get install -y --no-install-recommends git perl npm patch gettext unzip bzip2 pwgen nmap ncat jq \
-    librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev libxslt-dev; \
+    librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev libxslt-dev libzip-dev; \
     pecl install msgpack amqp redis imagick;
 
 # Install PHP extensions

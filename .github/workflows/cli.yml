@@ -57,7 +57,7 @@ jobs:
           push: ${{ github.ref == 'refs/heads/master' && !env.ACT }}
           tags: docker.io/rollupdev/php:${{ matrix.version.tag }}
   cli-loaders:
-    name: Build PHP images
+    name: Build PHP images With Loaders
     runs-on: ubuntu-latest
     needs: cli
 
