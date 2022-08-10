@@ -6,12 +6,12 @@ RUN set -eux; \
     apt-get update -y; \
     apt-get upgrade -y; \
     apt-get install -y --no-install-recommends git perl npm patch gettext unzip bzip2 pwgen nmap ncat jq \
-    librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev libxslt-dev libzip-dev; \
+    librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev libxslt-dev libzip-dev libxml2-dev; \
     pecl install msgpack amqp redis imagick;
 
 RUN set -eux \
     && PHP_VERSION=$(echo ${PHP_VERSION} | awk -F '.' '{print $1$2}') \
-    && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install xmlrpc; else docker-php-ext-install xmlrpc; fi" \
+    && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install channel://pecl.php.net/xmlrpc-1.0.0RC3; else docker-php-ext-install xmlrpc; fi"
 
 # Install PHP extensions
 RUN docker-php-ext-install bcmath gd gmp intl opcache pdo_mysql soap sockets xsl zip

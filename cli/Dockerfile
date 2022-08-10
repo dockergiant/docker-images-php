@@ -6,13 +6,12 @@ RUN set -eux; \
     apt-get update -y; \
     apt-get upgrade -y; \
     apt-get install -y --no-install-recommends git perl npm patch gettext unzip bzip2 pwgen nmap ncat jq \
-    libmcrypt-dev librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev libzip-dev; \
+    libmcrypt-dev librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev libzip-dev libxml2-dev; \
     pecl install mcrypt msgpack amqp redis imagick;
 
 RUN set -eux \
     && PHP_VERSION=$(echo ${PHP_VERSION} | awk -F '.' '{print $1$2}') \
-    && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install eio-beta xmlrpc; else pecl install eio && docker-php-ext-install xmlrpc; fi" \
-    && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install eio-beta xmlrpc; else pecl install eio ; fi"
+    && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install eio-beta; pecl install channel://pecl.php.net/xmlrpc-1.0.0RC3; else pecl install eio; docker-php-ext-install xmlrpc; fi"
 
 # Install PHP extensions
 RUN docker-php-ext-install bcmath gd gmp intl opcache zip soap
