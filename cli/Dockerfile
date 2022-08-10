@@ -5,22 +5,19 @@ FROM php:${PHP_VERSION}
 RUN set -eux; \
     apt-get update -y; \
     apt-get upgrade -y; \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends git perl npm patch gettext unzip bzip2 pwgen nmap ncat jq \
+    libmcrypt-dev librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev; \
+    pecl install mcrypt msgpack amqp redis imagick;
 
-# Install PHP extension installer
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN set -eux \
+    && PHP_VERSION=$(echo ${PHP_VERSION} | awk -F '.' '{print $1$2}') \
+    && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install eio-beta; else pecl install eio; fi"
 
-# List of PHP extensions
-ARG PHP_EXTENSIONS="bcmath gd gmp intl mcrypt opcache msgpack amqp redis imagick zip eio soap xmlrpc"
+# Install PHP extensions
+RUN docker-php-ext-install bcmath gd gmp intl opcache zip soap xmlrpc
+RUN docker-php-ext-enable mcrypt msgpack amqp redis imagick eio
 
-RUN set -eux; \
-    chsh -s /bin/bash; \
-    chmod +x /usr/local/bin/install-php-extensions; sync; \
-	install-php-extensions ${PHP_EXTENSIONS}; \
-	apt-get update; \
-    apt-get install -y --no-install-recommends git perl npm patch gettext unzip bzip2 pwgen nmap ncat jq ; \
-    rm -rf /var/lib/apt/lists/*
-
+RUN rm -rf /var/lib/apt/lists/*
 # Set primary INI file and PHP memory limit
 RUN set -eux \
     && cp ${PHP_INI_DIR}/php.ini-development ${PHP_INI_DIR}/php.ini \

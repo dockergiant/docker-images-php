@@ -5,21 +5,16 @@ FROM php:${PHP_VERSION}
 RUN set -eux; \
     apt-get update -y; \
     apt-get upgrade -y; \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends git perl npm patch gettext unzip bzip2 pwgen nmap ncat jq \
+    librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev libxslt-dev; \
+    pecl install msgpack amqp redis imagick;
 
-# Install PHP extension installer
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+# Install PHP extensions
+RUN docker-php-ext-install bcmath gd gmp intl opcache pdo_mysql soap sockets xmlrpc xsl zip
+RUN docker-php-ext-enable msgpack amqp redis imagick
 
-# List of PHP extensions
-ARG PHP_EXTENSIONS="amqp bcmath gd gmp imagick intl msgpack opcache pdo_mysql redis soap sockets xmlrpc xsl zip"
 
-RUN set -eux; \
-    chsh -s /bin/bash; \
-    chmod +x /usr/local/bin/install-php-extensions; sync; \
-	install-php-extensions ${PHP_EXTENSIONS}; \
-	apt-get update; \
-    apt-get install -y --no-install-recommends git openssh-client npm gettext unzip pwgen nmap ncat jq; \
-    rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/lib/apt/lists/*
 
 # Set primary INI file and PHP memory limit
 RUN set -eux \
