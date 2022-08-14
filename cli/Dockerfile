@@ -5,19 +5,22 @@ FROM php:${PHP_VERSION}
 RUN set -eux; \
     apt-get update -y; \
     apt-get upgrade -y; \
-    apt-get install -y --no-install-recommends git perl npm patch gettext unzip bzip2 pwgen nmap ncat jq \
-    libmcrypt-dev librabbitmq-dev imagemagick libmagickwand-dev libmagickcore-dev libgmp-dev libzip-dev libxml2-dev; \
-    pecl install mcrypt msgpack amqp redis imagick;
+    rm -rf /var/lib/apt/lists/*
 
-RUN set -eux \
-    && PHP_VERSION=$(echo ${PHP_VERSION} | awk -F '.' '{print $1$2}') \
-    && /bin/bash -c "if ((${PHP_VERSION} >= 80)); then pecl install eio-beta; pecl install channel://pecl.php.net/xmlrpc-1.0.0RC3; else pecl install eio; docker-php-ext-install xmlrpc; fi"
+# Install PHP extension installer
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-# Install PHP extensions
-RUN docker-php-ext-install bcmath gd gmp intl opcache zip soap
-RUN docker-php-ext-enable mcrypt msgpack amqp redis imagick eio xmlrpc
+# List of PHP extensions
+ARG PHP_EXTENSIONS="bcmath cli common gd gmp intl json mbstring mcrypt sodium mysqlnd opcache pdo pecl-msgpack pecl-amqp pecl-redis pecl-imagick pecl-zip process soap xml xmlrpc"
 
-RUN rm -rf /var/lib/apt/lists/*
+# Install PHP extensions and other utilities
+RUN set -eux; \
+    chmod +x /usr/local/bin/install-php-extensions; sync; \
+	install-php-extensions ${PHP_EXTENSIONS}; \
+	apt-get update; \
+    apt-get install -y --no-install-recommends git perl which npm patch gettext unzip bzip2 pwgen nmap-ncat jq; \
+    rm -rf /var/lib/apt/lists/*
+
 # Set primary INI file and PHP memory limit
 RUN set -eux \
     && cp ${PHP_INI_DIR}/php.ini-development ${PHP_INI_DIR}/php.ini \
