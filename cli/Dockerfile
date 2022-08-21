@@ -26,6 +26,18 @@ RUN set -eux \
     && cp ${PHP_INI_DIR}/php.ini-development ${PHP_INI_DIR}/php.ini \
     && perl -pi -e 's/memory_limit(.*)/memory_limit=-1/g' ${PHP_INI_DIR}/php.ini
 
+RUN set -eux; \
+	{ \
+		echo 'if [ -d /etc/profile.d ]; then'; \
+        echo '  for i in /etc/profile.d/*.sh; do'; \
+        echo '    if [ -r $i ]; then'; \
+        echo '      . $i'; \
+        echo '    fi'; \
+        echo '  done'; \
+        echo '  unset i'; \
+        echo 'fi'; \
+	} >> etc/bash.bashrc;
+
 # Setup Composer 1 & 2
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /tmp/composer
