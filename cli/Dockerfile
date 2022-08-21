@@ -36,7 +36,7 @@ RUN set -eux; \
         echo '  done'; \
         echo '  unset i'; \
         echo 'fi'; \
-	} >> etc/bash.bashrc;
+	} >> /etc/bash.bashrc;
 
 # Setup Composer 1 & 2
 ENV COMPOSER_ALLOW_SUPERUSER 1

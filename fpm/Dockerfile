@@ -70,7 +70,7 @@ RUN set -eux; \
         echo '  done'; \
         echo '  unset i'; \
         echo 'fi'; \
-	} >> etc/bash.bashrc;
+	} >> /etc/bash.bashrc;
 
 # Configure Docker entrypoint
 COPY docker-entrypoint /usr/local/bin

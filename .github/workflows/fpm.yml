@@ -19,17 +19,17 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - from: "7.2.34-fpm-buster"
+          - from: "7.2-fpm-buster"
             tag: "7.2"
-          - from: "7.3.33-fpm-bullseye"
+          - from: "7.3-fpm-bullseye"
             tag: "7.3"
-          - from: "7.4.30-fpm-bullseye"
+          - from: "7.4-fpm-bullseye"
             tag: "7.4"
-          - from: "8.0.21-fpm-bullseye"
+          - from: "8.0-fpm-bullseye"
             tag: "8.0"
-          - from: "8.1.8-fpm-bullseye"
+          - from: "8.1-fpm-bullseye"
             tag: "8.1"
-          - from: "8.2.0alpha3-fpm-bullseye"
+          - from: "8.2-rc-fpm-bullseye"
             tag: "8.2"
     steps:
       - name: Set up Actions
