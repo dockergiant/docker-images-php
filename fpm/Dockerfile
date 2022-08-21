@@ -60,6 +60,18 @@ RUN set -eux; \
     perl -pi -e 's/^(listen)/;$1/g' php-fpm.d/www.conf; \
     perl -pi -e 's/^(php_admin_(value|flag))/;$1/g' php-fpm.d/www.conf
 
+RUN set -eux; \
+	{ \
+		echo 'if [ -d /etc/profile.d ]; then'; \
+        echo '  for i in /etc/profile.d/*.sh; do'; \
+        echo '    if [ -r $i ]; then'; \
+        echo '      . $i'; \
+        echo '    fi'; \
+        echo '  done'; \
+        echo '  unset i'; \
+        echo 'fi'; \
+	} >> etc/bash.bashrc;
+
 # Configure Docker entrypoint
 COPY docker-entrypoint /usr/local/bin
 ENTRYPOINT ["docker-entrypoint"]
