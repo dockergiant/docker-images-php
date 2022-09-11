@@ -23,8 +23,8 @@ RUN set -eux; \
 
 # Set primary INI file and PHP memory limit
 RUN set -eux \
-    && cp ${PHP_INI_DIR}/php.ini-development ${PHP_INI_DIR}/php.ini \
-    && perl -pi -e 's/memory_limit(.*)/memory_limit=-1/g' ${PHP_INI_DIR}/php.ini
+    && cp ${PHP_INI_DIR}/php.ini-development ${PHP_INI_DIR}/php-cli.ini \
+    && perl -pi -e 's/memory_limit(.*)/memory_limit=-1/g' ${PHP_INI_DIR}/php-cli.ini
 
 RUN set -eux; \
 	{ \
