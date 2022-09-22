@@ -11,7 +11,7 @@ RUN set -eux; \
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 # List of PHP extensions
-ARG PHP_EXTENSIONS="bcmath gd gmp intl mcrypt opcache msgpack amqp redis imagick zip eio soap xmlrpc pcntl"
+ARG PHP_EXTENSIONS="bcmath gd gmp intl mcrypt opcache msgpack amqp redis imagick zip eio soap xmlrpc pcntl exif"
 
 # Install PHP extensions and other utilities
 RUN set -eux; \
