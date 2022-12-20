@@ -31,7 +31,7 @@ jobs:
             tag: "8.0"
           - from: "8.1-fpm-bullseye"
             tag: "8.1"
-          - from: "8.2-rc-fpm-bullseye"
+          - from: "8.2-fpm-bullseye"
             tag: "8.2"
     steps:
       - name: Set up Actions

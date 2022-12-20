@@ -72,6 +72,7 @@ RUN set -eux; \
         echo 'fi'; \
 	} >> /etc/bash.bashrc;
 
+RUN echo "www-data ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd
 # Configure Docker entrypoint
 COPY docker-entrypoint /usr/local/bin
 ENTRYPOINT ["docker-entrypoint"]
